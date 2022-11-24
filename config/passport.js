@@ -1,47 +1,46 @@
-const GoogleStrategy = require('passport-google-oauth20').Strategy
-const mongoose= require('mongoose')
-const User = require('../models/Users')
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const mongoose = require("mongoose");
+const User = require("../models/Users");
 
-module.exports= function(passport){
-	passport.use(new GoogleStrategy({
-		clientID: process.env.GOOGLE_CLIENT_ID,
-		clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-		callbackURL:'/auth/google/callback'
-	},
-	async(accessToken, refreshToken, profile, done)=>{
-		//console.log(profile) here we get all the info from the google account
-		const newUser={
-			googleId:profile.id,
-			displayName:profile.displayName,
-			firstName:profile.givenName,
-			lastName:profile.familyName,
-			image:profile.photos[0].value
-		}
+module.exports = function (passport) {
+	passport.use(
+		new GoogleStrategy(
+			{
+				clientID: process.env.GOOGLE_CLIENT_ID,
+				clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+				callbackURL: "/auth/google/callback",
+			},
+			async (accessToken, refreshToken, profile, done) => {
+				//console.log(profile) here we get all the info from the google account
+				const newUser = {
+					googleId: profile.id,
+					displayName: profile.displayName,
+					firstName: profile.givenName,
+					lastName: profile.familyName,
+					image: profile.photos[0].value,
+				};
 
-		try{
-		let user= await User.findOne({googleId:profile.id})
-		if(user){ //excit
-			done(null, user)
-		}
-		else{
-			user = await User.create(newUser)
-			done(null, user)
-		}
-	} 
-	catch(err){
-		console.error(err)
-	}
-	}
+				try {
+					let user = await User.findOne({ googleId: profile.id });
+					if (user) {
+						//excit
+						done(null, user);
+					} else {
+						user = await User.create(newUser);
+						done(null, user);
+					}
+				} catch (err) {
+					console.error(err);
+				}
+			}
+		)
+	);
 
+	passport.serializeUser((user, done) => {
+		done(null, user.id);
+	});
 
-
-	))
-
-	passport.serializeUser((user, done)=>{
-		done(null, user.id)
-	})
-
-	passport.deserializeUser((id, done)=>{
-		User.findById(id,(err,user)=> done(err,user))
-	})
-}
+	passport.deserializeUser((id, done) => {
+		User.findById(id, (err, user) => done(err, user));
+	});
+};

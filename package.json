@@ -2,7 +2,7 @@
   "name": "project",
   "version": "1.0.0",
   "description": "My first Node project",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node app",
     "dev": "cross-env NODE_ENV=development nodemon app"
