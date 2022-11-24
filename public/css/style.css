@@ -1,0 +1,42 @@
+body{
+	background: silver;
+}
+
+.login-con{
+	width: 400px;
+	margin-top: 50px;
+	text-align: center;
+	color: red;
+}
+
+h1{
+	text-align: center;
+	
+}
+
+
+h3{
+	text-align: center;
+	color: grey;
+}
+
+.fa-small{
+	font-size: 14px !important;
+}
+
+.fa-edit{
+	font-size: 10px !important;
+}
+
+.fa-trash{
+	font-size: 10px !important;
+}
+
+.btn-float{
+	float: left;
+	margin-right: 10px;
+}
+
+.img-small{
+	width: 180px;
+}
