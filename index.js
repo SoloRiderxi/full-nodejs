@@ -11,7 +11,7 @@ const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 
 //Load config
-dotenv.config({ path: "./config/config.env" });
+dotenv.config();
 
 //pass config
 require("./config/passport")(passport);
